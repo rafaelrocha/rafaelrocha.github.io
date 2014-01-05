@@ -1,0 +1,348 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fugindo Da Macarronada Javascript Com Module Pattern - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Demorei mas finalmente bloguei! Primeiro post e escrito em portugês ao contrário do jovem @jlucasps. Bão é assim, bagunça! Vamos ao que interessa, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://rafaelrocha.github.io/blog/2013/12/17/getting-away-of-javascript-spaghetti-with-module-pattern">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:rafaelrocha.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Fugindo Da Macarronada Javascript Com Module Pattern</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T21:24:08-02:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Demorei mas finalmente bloguei! Primeiro post e escrito em portugês ao contrário do jovem <a href='https://github.com/jlucasps' target='_blank'>@jlucasps</a>. Bão é assim, bagunça! Vamos ao que interessa, Javascript!</p>
+
+<p>Porque a maioria das pessoas tem pavor de JavaScript? Tudo bem que ele faz bizarrises como:</p>
+
+<ul>
+<li>retornar &ldquo;fooNaN&rdquo; para <code>(&ldquo;foo&rdquo; + + &ldquo;bar&rdquo;)</code></li>
+<li>retornar 10000000000000000 para  <code>9999999999999999</code></li>
+<li>e retornar false para <code>0.1 + 0.2 == 0.3</code></li>
+</ul>
+
+
+<p><em>Mais bizarrises <a href="http://brian.io/slides/dotjs-2012/">aqui</a>.</em></p>
+
+<p>Ele tem seus defeitos tadinho e não são poucos, mas o problema maior é o desprezo pela linguagem e a falta de curiosidade da maioria dos desenvolvedores sobre como fazer um código limpo e reutilizável.
+Module é um padrão que nos ajuda a criar abstrações sobre um domínio, encapsulando a lógica do seu problema e expondo somente aquilo que interessa.</p>
+
+<!-- more -->
+
+
+<p>O objetivo deste post não é explicar em detalhes como funciona este padrão mas sim mostrar as vantagens que ele traz. Para isso vamos implementar um filtro por período usando JQuery UI que nos deixe escolher o período (lógico) e que nos mostre a quantidade de mêses desse intervalo.</p>
+
+<iframe style="width: 100%; height: 300px" frameborder="0" seamless="seamless" src="http://jsfiddle.net/dPp8S/embedded/js,resources,html,css,result/light/"></iframe>
+
+
+<br/>
+
+
+<p>Supimpa! Funciona belezinha mas se precisarmos de um outro filtro com o mesmo comportamento? Temos duas opções:</p>
+
+<ol>
+<li>copy &amp; paste trocando somente os id&rsquo;s dos elementos</li>
+<li>extrair esse comportamento para um module</li>
+</ol>
+
+
+<p>Prefiro a segunda opção mas para podermos comparar vamos implementar as duas!</p>
+
+<ul>
+<li>copy &amp; paste trocando somente os id&rsquo;s dos elementos <em>(não gaste muito tempo com esse código, só faça uma análise crítica do mesmo e perceba a macarradonada que esta sendo cozinhada)</em></li>
+</ul>
+
+
+<iframe style="width: 100%; height: 300px" frameborder="0" seamless="seamless" src="http://jsfiddle.net/xSaFE/embedded/js,resources,html,css,result/light/"></iframe>
+
+
+<br/>
+
+
+<ul>
+<li>comportamento extraído para um module chamado rangeDatePicker</li>
+</ul>
+
+
+<iframe style="width: 100%; height: 300px" frameborder="0" seamless="seamless" src="http://jsfiddle.net/b6x4b/embedded/js,resources,html,css,result/light/"></iframe>
+
+
+<br/>
+
+
+<p>Basta olhar na quantidade de linhas de código adicionais para implementar o &ldquo;copy &amp; paste&rdquo; contra o module para perceber que a segunda opção resolve o problema de forma mais elegante, limpa e manutenivel, 28 linhas contra 4!</p>
+
+<figure class='code'><figcaption><span>Usando module </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">rangeOne</span> <span class="o">=</span> <span class="nx">rangeDatePicker</span><span class="p">(</span><span class="s2">&quot;#initRangeDateA&quot;</span><span class="p">,</span> <span class="s2">&quot;#endRangeDateA&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#computeA&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#differenceInMonthA&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">rangeOne</span><span class="p">.</span><span class="nx">differenceInMonth</span><span class="p">())</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span>Cozinhando macarrão </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#initRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">defaultDate</span><span class="o">:</span> <span class="s2">&quot;+1w&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">changeMonth</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">numberOfMonths</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">onClose</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">selectedDate</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#endRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">(</span><span class="s2">&quot;option&quot;</span><span class="p">,</span> <span class="s2">&quot;minDate&quot;</span><span class="p">,</span> <span class="nx">selectedDate</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#endRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">defaultDate</span><span class="o">:</span> <span class="s2">&quot;+1w&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">changeMonth</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">numberOfMonths</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="nx">onClose</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">selectedDate</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#initRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">(</span><span class="s2">&quot;option&quot;</span><span class="p">,</span> <span class="s2">&quot;maxDate&quot;</span><span class="p">,</span> <span class="nx">selectedDate</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">differenceInMonthA</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">fromIdElementDate</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#initRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">(</span><span class="s2">&quot;getDate&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">toIdElementDate</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#endRangeDateA&quot;</span><span class="p">).</span><span class="nx">datepicker</span><span class="p">(</span><span class="s2">&quot;getDate&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="nx">toIdElementDate</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">()</span> <span class="o">-</span> <span class="nx">fromIdElementDate</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">())</span> <span class="o">*</span> <span class="mi">12</span>
+</span><span class='line'>    <span class="o">+</span> <span class="nx">toIdElementDate</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span> <span class="o">-</span> <span class="nx">fromIdElementDate</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#computeA&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#differenceInMonthA&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">differenceInMonthA</span><span class="p">())</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>A idéia desse post não é entrar em detalhes sobre como funciona o module mas sim ascender uma faísca de curiosidade na cabeça de quem ainda não o conhece. Quem estiver interessado em aprofundar, primeiro procure entender <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Closures">closures</a> e depois estude module. Abaixo seguem ótimas referências para estudo.</p>
+
+<ul>
+<li><a href="http://tableless.com.br/modularizacao-em-javascript/#.UrNqIPRDsn4">Modularização em JavaScript</a></li>
+<li><a href="http://www.joezimjs.com/javascript/javascript-closures-and-the-module-pattern">JavaScript Closures and the Module Pattern</a></li>
+</ul>
+
+
+<p>Bjo!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Rafael Rocha <a href='https://github.com/rafaelrocha' target='_blank'>@rafaelrocha</a></span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-17T21:24:08-02:00" pubdate data-updated="true">Dec 17<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/pattern/'>pattern</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://rafaelrocha.github.io/blog/2013/12/17/getting-away-of-javascript-spaghetti-with-module-pattern/" data-via="" data-counturl="http://rafaelrocha.github.io/blog/2013/12/17/getting-away-of-javascript-spaghetti-with-module-pattern/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/28/creating-friendly-urls-in-javascript/" title="Previous Post: Creating friendly URL's in JavaScript">&laquo; Creating friendly URL's in JavaScript</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/17/getting-away-of-javascript-spaghetti-with-module-pattern/">Fugindo Da Macarronada Javascript Com Module Pattern</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/28/creating-friendly-urls-in-javascript/">Creating Friendly URL's in JavaScript</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

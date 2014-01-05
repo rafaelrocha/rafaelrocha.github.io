@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Development | My Octopress Blog]]></title>
+  <link href="http://rafaelrocha.github.io/blog/categories/development/atom.xml" rel="self"/>
+  <link href="http://rafaelrocha.github.io/"/>
+  <updated>2014-01-05T16:13:16-02:00</updated>
+  <id>http://rafaelrocha.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Creating Friendly URL's in JavaScript]]></title>
+    <link href="http://rafaelrocha.github.io/blog/2013/11/28/creating-friendly-urls-in-javascript/"/>
+    <updated>2013-11-28T13:57:32-02:00</updated>
+    <id>http://rafaelrocha.github.io/blog/2013/11/28/creating-friendly-urls-in-javascript</id>
+    <content type="html"><![CDATA[<p>Hi people, what&rsquo;s new in this world of blogging and posting, hum?</p>
+
+<p>Long time ago, Rafael Rocha <a href='https://github.com/rafaelrocha' target='_blank'>@rafaelrocha</a> and Me
+have decided to start blogging about <strong>software development</strong>, <strong>computing</strong>, <strong>technology</strong> and this kind of stuff. But, as always,
+have been so hard to find a free time to write. Then this week I made the first move, now it is up to you Rafilds.</p>
+
+<p>I&rsquo;ll start writing about a very useful feature in modern web apps: <strong>friendly URL&rsquo;s</strong></p>
+
+<!-- more -->
+
+
+<p>Friendly URL&rsquo;s are important for SEO <a href="http://en.wikipedia.org/wiki/Search_engine_optimization"  target='_blank'>(See at wikipedia)</a> as well as for human readability.</p>
+
+<p>One of these days, in a project at <a href="http://synapses.com.br/" target='_blank'>Synapses</a>,  I needed a
+JavaScrip code to convert a user&rsquo;s input in a text that could be easily readable, and also used as URL of a web page.
+Then I Googled a lot in blogs, post and Stack Overflow, then made a satisfatory function to do it.</p>
+
+<p>Here is the source:</p>
+
+<p>The function <code>friendly_url(str, max)</code> (in Ruby naming convention) takes two parameters:</p>
+
+<ul>
+  <li><code>str</code> being the text to convert;</li>
+  <li><code>max</code> as maximum length of output String, set do <code>32</code>  if not defined.</li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>Javascript Friendly URL </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Transforms String in URL</span>
+</span><span class='line'><span class="kd">function</span> <span class="nx">friendly_url</span><span class="p">(</span><span class="nx">str</span><span class="p">,</span> <span class="nx">max</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">max</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="nx">max</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">a_chars</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="sr">/[áàâãªÁÀÂÃÅª]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="sr">/[éèêÉÈÊ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="sr">/[íìîÍÌÎ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="sr">/[òóôõºÓÒÔÕ°Ö]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="sr">/[úùûÚÙÛµÜü]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="sr">/[çÇ¢©]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="sr">/[Ð]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="sr">/[Ññ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="sr">/[Šš§]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="sr">/[Žž]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="sr">/[Ÿ¥Ýýÿ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;ae&quot;</span><span class="p">,</span> <span class="sr">/[Æœæ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;ce&quot;</span><span class="p">,</span> <span class="sr">/[Œ]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="sr">/[®]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">,</span> <span class="sr">/[º]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="sr">/[¹]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">,</span> <span class="sr">/[²]/g</span><span class="p">),</span>
+</span><span class='line'>      <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">,</span> <span class="sr">/[³]/g</span><span class="p">)</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">);</span>
+</span><span class='line'>  <span class="c1">// Replace vowel with accent without them</span>
+</span><span class='line'>  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&amp;</span><span class="nx">lt</span><span class="p">;</span> <span class="nx">a_chars</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nx">str</span> <span class="o">=</span> <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">a_chars</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="nx">a_chars</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]);</span>
+</span><span class='line'><span class="o">&lt;</span><span class="err">/code&gt;&lt;/pre&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'>  <span class="o">/&lt;</span><span class="nx">em</span><span class="o">&gt;</span> <span class="nx">first</span> <span class="nx">replace</span> <span class="nx">whitespace</span> <span class="nx">by</span> <span class="o">&amp;</span><span class="nx">ndash</span><span class="p">;,</span> <span class="nx">second</span> <span class="nx">remove</span> <span class="nx">repeated</span> <span class="o">&amp;</span><span class="nx">ndash</span><span class="p">;</span> <span class="nx">by</span> <span class="nx">just</span> <span class="nx">one</span><span class="p">,</span> <span class="nx">third</span> <span class="nx">turn</span> <span class="k">in</span> <span class="nx">low</span> <span class="k">case</span> <span class="nx">the</span> <span class="nx">chars</span><span class="p">,</span>
+</span><span class='line'>   <span class="o">*</span> <span class="nx">fourth</span> <span class="k">delete</span> <span class="nx">all</span> <span class="nx">chars</span> <span class="nx">which</span> <span class="nx">are</span> <span class="nx">not</span> <span class="nx">between</span> <span class="nx">a</span><span class="o">-</span><span class="nx">z</span> <span class="nx">or</span> <span class="mi">0</span><span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="nx">fifth</span> <span class="nx">trim</span> <span class="nx">the</span> <span class="nx">string</span> <span class="nx">and</span>
+</span><span class='line'>   <span class="o">*</span> <span class="nx">the</span> <span class="nx">last</span> <span class="nx">step</span> <span class="nx">truncate</span> <span class="nx">the</span> <span class="nx">string</span> <span class="nx">to</span> <span class="mi">32</span> <span class="nx">chars</span>
+</span><span class='line'>   <span class="o">&lt;</span><span class="sr">/em&gt;/</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\s+/g</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">ndash</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;).</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[^a-z0-9-]/g</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;).</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/-{2,}/g</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">lsquo</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">ndash</span><span class="p">;</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;).</span><span class="nx">replace</span><span class="p">(</span><span class="err">/(^\s&lt;em&gt;)|(\s&lt;/em&gt;$)/g, &amp;lsquo;&amp;rsquo;).substr(0, max);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>It replaces non-common symbols, signals and spaces by usual letters.</p>
+
+<p>Here I show some inputs and outputs when using the function above.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>output </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'>  <span class="nx">friendly_url</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">Jo</span><span class="err">ã</span><span class="nx">o</span> <span class="nx">Lucas</span> <span class="nx">Pereira</span> <span class="nx">de</span> <span class="nx">Santana</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)</span>
+</span><span class='line'>  <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">joao</span><span class="o">-</span><span class="nx">lucas</span><span class="o">-</span><span class="nx">pereira</span><span class="o">-</span><span class="nx">de</span><span class="o">-</span><span class="nx">santana</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="err">#</span> <span class="nx">Long</span> <span class="nx">text</span>
+</span><span class='line'>  <span class="nx">friendly_url</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">Lorem</span> <span class="nx">Ipsum</span> <span class="nx">is</span> <span class="nx">simply</span> <span class="nx">dummy</span> <span class="nx">text</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">printing</span> <span class="nx">and</span> <span class="nx">typesetting</span> <span class="nx">industry</span><span class="p">.</span> <span class="nx">Lorem</span> <span class="nx">Ipsum</span> <span class="nx">has</span> <span class="nx">been</span> <span class="nx">the</span> <span class="nx">industry</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span><span class="nx">s</span> <span class="nx">standard</span> <span class="nx">dummy</span> <span class="nx">text</span> <span class="nx">ever</span> <span class="nx">since</span> <span class="nx">the</span> <span class="mi">1500</span><span class="nx">s</span><span class="p">,</span> <span class="nx">when</span> <span class="nx">an</span> <span class="nx">unknown</span> <span class="nx">printer</span> <span class="nx">took</span> <span class="nx">a</span> <span class="nx">galley</span> <span class="nx">of</span> <span class="nx">type</span> <span class="nx">and</span> <span class="nx">scrambled</span> <span class="nx">it</span> <span class="nx">to</span> <span class="nx">make</span> <span class="nx">a</span> <span class="nx">ty</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)</span>
+</span><span class='line'>  <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">lorem</span><span class="o">-</span><span class="nx">ipsum</span><span class="o">-</span><span class="nx">is</span><span class="o">-</span><span class="nx">simply</span><span class="o">-</span><span class="nx">dummy</span><span class="o">-</span><span class="nx">text</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="err">#</span> <span class="nx">Long</span> <span class="nx">text</span> <span class="kd">with</span> <span class="nx">limit</span> <span class="nx">of</span> <span class="mi">50</span> <span class="nx">characters</span>
+</span><span class='line'>  <span class="nx">friendly_url</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">Lorem</span> <span class="nx">Ipsum</span> <span class="nx">is</span> <span class="nx">simply</span> <span class="nx">dummy</span> <span class="nx">text</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">printing</span> <span class="nx">and</span> <span class="nx">typesetting</span> <span class="nx">industry</span><span class="p">.</span> <span class="nx">Lorem</span> <span class="nx">Ipsum</span> <span class="nx">has</span> <span class="nx">been</span> <span class="nx">the</span> <span class="nx">industry</span><span class="o">&amp;</span><span class="nx">rsquo</span><span class="p">;</span><span class="nx">s</span> <span class="nx">standard</span> <span class="nx">dummy</span> <span class="nx">text</span> <span class="nx">ever</span> <span class="nx">since</span> <span class="nx">the</span> <span class="mi">1500</span><span class="nx">s</span><span class="p">,</span> <span class="nx">when</span> <span class="nx">an</span> <span class="nx">unknown</span> <span class="nx">printer</span> <span class="nx">took</span> <span class="nx">a</span> <span class="nx">galley</span> <span class="nx">of</span> <span class="nx">type</span> <span class="nx">and</span> <span class="nx">scrambled</span> <span class="nx">it</span> <span class="nx">to</span> <span class="nx">make</span> <span class="nx">a</span> <span class="nx">ty</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;,</span> <span class="mi">50</span><span class="p">)</span>
+</span><span class='line'>  <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">lorem</span><span class="o">-</span><span class="nx">ipsum</span><span class="o">-</span><span class="nx">is</span><span class="o">-</span><span class="nx">simply</span><span class="o">-</span><span class="nx">dummy</span><span class="o">-</span><span class="nx">text</span><span class="o">-</span><span class="nx">of</span><span class="o">-</span><span class="nx">the</span><span class="o">-</span><span class="nx">printing</span><span class="o">-</span><span class="nx">a</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="err">#</span>
+</span><span class='line'>  <span class="nx">friendly_url</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">string</span> <span class="kd">with</span> <span class="err">ç</span><span class="nx">a</span> <span class="nx">and</span> <span class="err">çã</span><span class="nx">o</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)</span>
+</span><span class='line'>  <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">string</span><span class="o">-</span><span class="kd">with</span><span class="o">-</span><span class="nx">ca</span><span class="o">-</span><span class="nx">and</span><span class="o">-</span><span class="nx">cao</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="err">#</span>
+</span><span class='line'>  <span class="nx">friendly_url</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">a</span> <span class="nx">lot</span>    <span class="nx">of</span>      <span class="nx">spaces</span>    <span class="nx">between</span> <span class="nx">words</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;)</span>
+</span><span class='line'>  <span class="o">&amp;</span><span class="nx">ldquo</span><span class="p">;</span><span class="nx">a</span><span class="o">-</span><span class="nx">lot</span><span class="o">-</span><span class="nx">of</span><span class="o">-</span><span class="nx">spaces</span><span class="o">-</span><span class="nx">between</span><span class="o">-</span><span class="nx">words</span><span class="o">&amp;</span><span class="nx">rdquo</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>So&hellip; that&rsquo;s all folks. Next week I&rsquo;ll post about Ruby, may be Rails :-D</p>
+]]></content>
+  </entry>
+  
+</feed>

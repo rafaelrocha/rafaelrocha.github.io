@@ -1,6 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>
+            http://rafaelrocha.github.io/blog/2013/11/28/creating-friendly-urls-in-javascript/
+        </loc>
+        <lastmod>2014-01-05T15:41:37-02:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://rafaelrocha.github.io/blog/2013/12/17/getting-away-of-javascript-spaghetti-with-module-pattern/
+        </loc>
+        <lastmod>2014-01-05T15:41:37-02:00</lastmod>
+    </url>
+    <url>
         <loc>http://rafaelrocha.github.io/blog/archives/</loc>
         <lastmod>2014-01-05T15:41:37-02:00</lastmod>
     </url>
