@@ -398,3 +398,17 @@ task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
 end
+
+#generate on Windows
+task :generateOnWindows do
+    puts '* Changing the codepage'
+    `chcp 65001`
+    Rake::Task[:generate].execute
+end
+
+#generate on Windows
+task :generateOnWindows do
+    puts '* Changing the codepage'
+    `chcp 65001`
+    Rake::Task[:generate].execute
+end
